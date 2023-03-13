@@ -1,0 +1,2 @@
+npm i -S express cors ejs
+npm i -D prettier  eslint  eslint-config-airbnb-base eslint-plugin-import
