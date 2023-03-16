@@ -5,13 +5,19 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>메인페이지</title>
-  <!-- localhost:4000/public/ 다음 경로로 생각하면 됨 -->
-  <link rel="stylesheet" href="/css/style.css">
-  <script defer src="/js/main.js"></script>
+
 </head>
 <body>
-  <h1>메인페이지</h1>
-  <p><%= msg %></p>
-  <img src="/img/cat.jpeg" alt="고양이">
+  <h1>Welcome to Tetz Express Service</h1>
+  <h2><a href="/users">회원 서비스</a></h2>
+  <h2><a href="/dbBoard">게시판 서비스</a></h2>
+  <script>
+    // console.log(document.cookie);
+    
+    // document.cookie = "user=tetz; expires=17 Mar 2023 13:00:00 GMT; path=/";
+    // document.cookie = "test=kdt; expires=17 Mar 2023 13:00:00 GMT; path=/";
+    
+    console.log(document.cookie);
+  </script>
 </body>
 </html>
