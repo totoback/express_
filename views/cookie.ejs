@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>쿠키 팔아요</h1>
+  <input type="checkbox" name="check" id="check">
+  <label>alert 하루동안 보지 않기</label>
+
+  <script>
+    if(!document.cookie) alert('쿠키 팔아요!');
+
+    // const checkBox = document.getElementById('check');
+    // checkBox.addEventListener('click',()=>{
+    //   if(checkBox.checked){
+    //     //콜백 보내기
+    //     fetch(`http://localhost:4000/cookie/cook`,{
+    //     method:'GET',
+    //     headers:{
+    //       'Content-type': 'application/json'
+    //     }
+    //     }).then((res) =>{
+    //     console.log('RESPONSE',res);
+    //     return res.json();
+    //     res.json();
+    //     }).then((msg) =>{
+    //       console.log('MESSAGE',msg);
+    //     })
+    //   }
+    // })
+
+    const checkBox = document.getElementById('check');
+    checkBox.addEventListener('click', async ()=>{
+      if(checkBox.checked){
+        //콜백 보내기
+        const res = await fetch(`http://localhost:4000/cookie/cook`,{
+        method:'GET',
+        headers:{
+          'Content-type' : 'application/json'
+        }
+        });
+        console.log(res);
+        const msg = await res.json();
+        console.log(msg);
+      }
+    })
+  </script>
+</body>
+</html>

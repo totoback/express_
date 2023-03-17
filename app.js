@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const session = require('express-session');
 
 const app = express();
 // 실제로 쓰는 expresss를 app으로 변수화
@@ -14,6 +15,8 @@ const boardRouter = require('./routes/board');
 const dbRouter = require('./routes/db');
 const dbBoardRouter = require('./routes/dbBoard');
 const cookieRouter = require('./routes/cookie');
+const registerRouter = require('./routes/register');
+const loginRouter = require('./routes/login');
 
 const bodyParser = require('body-parser');
 
@@ -26,6 +29,16 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 // app.use('/public', express.static('public')); /public의 경로로도 가능
 app.use(cookieParser());
+app.use(
+  session({
+    secret: 'tetz',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      maxAge: 1000 * 60 * 60, //힌 시간 까지
+    },
+  }),
+);
 
 // 라우터를 서버로 연겷해주기
 app.use('/', mainRouter); // 4000으로 들어갔을때 메인 서버로 연결
@@ -34,6 +47,8 @@ app.use('/board', boardRouter);
 app.use('/db', dbRouter);
 app.use('/dbBoard', dbBoardRouter);
 app.use('/cookie', cookieRouter);
+app.use('/register', registerRouter);
+app.use('/login', loginRouter);
 
 app.use((err, req, res, next) => {
   console.log(err.stack); //어떤 에러가 발생하는지 statck을 찍어준다.
