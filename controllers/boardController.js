@@ -9,10 +9,11 @@ const boardDB = {
       cb(data);
     });
   },
+  // 게시글 추가하기
   writeArticle: (newArticle, cb) => {
     console.log(newArticle);
     connection.query(
-      `INSERT INTO mydb.board (TITLE, CONTENT) values ('${newArticle.title}', '${newArticle.content}');`,
+      `INSERT INTO mydb.board (USERID, TITLE, CONTENT) values ('${newArticle.userId}','${newArticle.title}', '${newArticle.content}');`,
       //INSERT INTO board (TITLE, CONTENT) values
       //반드시 문자열로, 문자열로 안하면 컴퓨터가 컬럼으로 생각함
       (err, data) => {

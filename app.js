@@ -28,15 +28,15 @@ app.set('view engine', 'ejs');
 // ejs를 사용하려면 뷰엔진을 ejs로 사용한다는 코드 선언
 app.use(express.static('public'));
 // app.use('/public', express.static('public')); /public의 경로로도 가능
-app.use(cookieParser());
+app.use(cookieParser('joung'));
 app.use(
   session({
     secret: 'tetz',
     resave: false,
     saveUninitialized: true,
-    cookie: {
-      maxAge: 1000 * 60 * 60, //힌 시간 까지
-    },
+    // cookie: {
+    //   maxAge: 1000 * 60 * 60, //힌 시간 까지
+    // },
   }),
 );
 

@@ -11,8 +11,18 @@ router.post('/', (req, res) => {
   userDB.userCheck(req.body.id, (data) => {
     if (data.length === 1) {
       if (data[0].PASSWORD === req.body.password) {
+        // 백엔드 세션 생성
         req.session.login = true;
         req.session.userId = req.body.id;
+
+        // 로그인 쿠키 발행
+        res.cookie('user', req.body.id, {
+          // user로 발행하고, 아이디를 받아온다.
+          maxAge: 1000 * 10, // 생성부터 30초동안 유지하도록
+          httpOnly: true,
+          signed: true, // 쿠키가 암호화된다.
+        });
+
         res.status(200);
         res.redirect('/dbBoard');
       } else {
@@ -36,6 +46,7 @@ router.post('/', (req, res) => {
 router.get('/logout', (req, res) => {
   req.session.destroy((err) => {
     if (err) throw err;
+    res.clearCookie('user');
     res.redirect('/');
   });
 });

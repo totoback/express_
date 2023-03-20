@@ -1,3 +1,4 @@
+const { signedCookie } = require('cookie-parser');
 const express = require('express');
 const boardDB = require('../controllers/boardController');
 
@@ -5,7 +6,9 @@ const router = express.Router();
 
 // 로그인 확인용 미들웨어 (로그인전에 확인함)
 function isLogin(req, res, next) {
-  if (req.session.login) {
+  if (req.session.login || req.signedCookies.user) {
+    // signedCookies 안에 user라는 키값이 존재하는지 체크
+    // console.log(req.signedCookie.user);
     next();
   } else {
     res.status(400);
@@ -35,8 +38,14 @@ router.get('/write', isLogin, (req, res) => {
 // 데이터 베이스에 글쓰기
 router.post('/write', isLogin, (req, res) => {
   // console.log(req.body); //브라우져에서 실행하고 터미널로 확인 가능
+  // USERID --> req.sesstion.userID
   if (req.body.title && req.body.content) {
-    boardDB.writeArticle(req.body, (data) => {
+    const newArticle = {
+      userId: req.session.userId,
+      title: req.body.title,
+      content: req.body.content,
+    };
+    boardDB.writeArticle(newArticle, (data) => {
       console.log(data);
       if (data.affectedRows >= 1) {
         res.redirect('/dbBoard');

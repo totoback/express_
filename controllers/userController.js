@@ -17,7 +17,7 @@ const userDB = {
   // 회원 가입하기
   registerUser: (newUser, cb) => {
     connection.query(
-      `INSERT INTO mydb.user (USERID, PASSWORD) values ('${newUser.id}','${newUser.password},');`,
+      `INSERT INTO mydb.user (USERID, PASSWORD) values ('${newUser.id}','${newUser.password}');`,
       (err, data) => {
         if (err) throw err; //에러 발생하면 에러 던진다.
         cb(data); // 에러 발생 안하면 데이터를 결과에 넣어준다.
