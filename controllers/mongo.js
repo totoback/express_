@@ -26,6 +26,7 @@ client.connect((err) => {
         const findCursor = test.find({});
         findCursor.toArray((err, data) => {
           console.log(data);
+          // console.log(data);
         });
         // client.close();
       },
