@@ -2,10 +2,12 @@ const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+require('dotenv').config();
 
 const app = express();
 // 실제로 쓰는 expresss를 app으로 변수화
-const PORT = 4000;
+// const PORT = 4000;
+const { PORT } = process.env;
 // 포트 4000번으로 지정
 
 // 서버 라우터 경로 불러오기
