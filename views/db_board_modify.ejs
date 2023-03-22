@@ -133,7 +133,7 @@
       <div class="board_header">
         <h1>Write Mode</h1>
       </div>
-      <form action="/dbBoard/modify/<%=selectedArticle.ID_PK%>" method="POST" class="board_form">
+      <form action="/dbBoard/modify/<%=selectedArticle._id%>" method="POST" class="board_form">
         <div class="form_title">
           <h3>제목</h3>
           <input type="text" name="title" value="<%= selectedArticle.TITLE %>" required />

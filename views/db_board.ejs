@@ -139,8 +139,8 @@
             </div>
             <div class="foot">
               <% if (ARTICLE[i].USERID === userId) {%>
-              <a class="btn orange" href="/dbBoard/modify/<%= ARTICLE[i].ID_PK %>">수정</a>
-              <a class="btn blue" href="#" onclick="deleteArticle('<%= ARTICLE[i].ID_PK %>')">삭제</a>
+              <a class="btn orange" href="/dbBoard/modify/<%= ARTICLE[i]._id %>">수정</a>
+              <a class="btn blue" href="#" onclick="deleteArticle('<%= ARTICLE[i]._id %>')">삭제</a>
               <% } %>
             </div>
           </li>
@@ -154,19 +154,32 @@
     </div>
   </div>
   <script>
-    function deleteArticle(id) {
-      fetch(`http://localhost:4000/dbBoard/delete/${id}`, {
-        method: 'delete',
-        headers : {
-          'Content-type': 'application/json',
-        },
-      }).then((res)=>{
-        // res.redirect('/cbBoard');
-        // console.log(res);
-        location.href = '/dbBoard';
-        if(res.status === 200) location.reload();
-      })
+    async function deleteArticle(id){
+      const res = await fetch(`/dbBoard/delete/${id}`, {method: 'DELETE'});
+      console.log(res);
+      if(res.status !== 200) return alert('통신 실패');
+      const msg = await res.json();
+      console.log(msg);
+      // location.reload();
     }
+
+    // function deleteArticle(id) {
+    //   fetch(`http://localhost:4000/dbBoard/delete/${id}`, {
+    //     method: 'delete',
+    //     headers : {
+    //       'Content-type': 'application/json',
+    //     },
+    //   }).then((res)=>{
+    //     // res.redirect('/cbBoard');
+    //     // console.log(res);
+    //     location.href = '/dbBoard';
+    //     // if(res.status === 200) location.reload();
+    //     console.log(res);
+    //     return res.json();
+    //   }).then((msg)=> {
+    //     console.log(msg);
+    //   })
+    // }
     // board.js delete에 미들웨어로 보내진다
   </script>
 </body>
