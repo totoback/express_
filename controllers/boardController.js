@@ -18,6 +18,7 @@ const getAllArticles = async (req, res) => {
       ARTICLE,
       articleCounts: ARTICLE.length,
       userId: req.session.userId,
+      IMAGE: req.file ? req.file.filename : null,
     });
   } catch (err) {
     console.error(err);
@@ -31,10 +32,14 @@ const writeArticle = async (req, res) => {
     const client = await mongoClient.connect();
     const board = client.db('kdt5').collection('board');
 
+    console.log(req.file);
+
     const newArticle = {
       USERID: req.session.userId,
       TITLE: req.body.title,
       CONTENT: req.body.content,
+      IMAGE: req.file ? req.file.filename : null,
+      //삼항연산자
     };
     await board.insertOne(newArticle);
     res.redirect('/dbBoard');
@@ -66,9 +71,18 @@ const modifyArticle = async (req, res) => {
     const client = await mongoClient.connect();
     const board = client.db('kdt5').collection('board');
 
+    // console.log(req.file);
+
+    const modify = {
+      TITLE: req.body.title,
+      CONTENT: req.body.content,
+    };
+    if (req.file) modify.IMAGE = req.file.filename;
+    //수정할 파일이 올라오면
+
     await board.updateOne(
       { _id: ObjectId(req.params.id) }, // 찾는다.
-      { $set: { TITLE: req.body.title, CONTENT: req.body.content } }, // $set은 변경한다.
+      { $set: modify }, // $set은 변경한다.
     );
 
     res.status(200).redirect('/dbBoard');

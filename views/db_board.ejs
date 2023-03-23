@@ -137,6 +137,11 @@
             <div class="content">
               <%= ARTICLE[i].CONTENT %>
             </div>
+            <div class="content">
+              <% if (ARTICLE[i].IMAGE !== null && ARTICLE[i].IMAGE !== undefined) {%>
+                <img src="/uploads/<%=ARTICLE[i].IMAGE %>" width="500">
+              <%} %>
+            </div>
             <div class="foot">
               <% if (ARTICLE[i].USERID === userId) {%>
               <a class="btn orange" href="/dbBoard/modify/<%= ARTICLE[i]._id %>">수정</a>
@@ -155,7 +160,7 @@
   </div>
   <script>
     async function deleteArticle(id){
-      const res = await fetch(`/dbBoard/delete/${id}`, {method: 'DELETE'});
+      const res = await fetch(`/dbBoard/delete/${id}`,{method: 'DELETE'});
       console.log(res);
       if(res.status !== 200) return alert('통신 실패');
       const msg = await res.json();

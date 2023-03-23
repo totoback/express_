@@ -30,6 +30,8 @@ app.set('view engine', 'ejs');
 // ejs를 사용하려면 뷰엔진을 ejs로 사용한다는 코드 선언
 app.use(express.static('public'));
 // app.use('/public', express.static('public')); /public의 경로로도 가능
+app.use('/uploads', express.static('uploads'));
+// 이미지 업로드 static으로 변경
 app.use(cookieParser('joung'));
 app.use(
   session({

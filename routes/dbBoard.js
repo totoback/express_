@@ -1,5 +1,10 @@
 const { signedCookie } = require('cookie-parser');
 const express = require('express');
+
+const multer = require('multer');
+const fs = require('fs');
+//filesytem 모듈 호출
+
 const {
   getAllArticles,
   writeArticle,
@@ -10,6 +15,25 @@ const {
 // const boardDB = require('../controllers/boardController');
 
 const router = express.Router();
+
+// 파일 업로드 설정
+const dir = './uploads';
+const storage = multer.diskStorage({
+  //어느 폴더에 파일을 지정할 것인가.
+  destination: (req, file, cb) => {
+    cb(null, dir);
+  },
+  //파일 이름 설정
+  filename: (req, file, cb) => {
+    cb(null, file.fieldname + '_' + Date.now());
+  },
+});
+const limits = {
+  fileSize: 1024 * 1024 * 2,
+  //2메가 까지
+};
+const upload = multer({ storage, limits });
+if (!fs.existsSync(dir)) fs.mkdirSync(dir);
 
 // 로그인 확인용 미들웨어 (로그인전에 확인함)
 function isLogin(req, res, next) {
@@ -34,13 +58,13 @@ router.get('/write', (req, res) => {
 });
 
 // 글쓰기
-router.post('/write', isLogin, writeArticle);
+router.post('/write', isLogin, upload.single('img'), writeArticle);
 
 // 글수정 모드로 이동
 router.get('/modify/:id', isLogin, getArticle);
 
 // 글 수정하기
-router.post('/modify/:id', isLogin, modifyArticle);
+router.post('/modify/:id', isLogin, upload.single('img'), modifyArticle);
 
 // 글 삭제하기
 router.delete('/delete/:id', isLogin, deleteArticle);

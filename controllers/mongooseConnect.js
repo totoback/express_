@@ -1,8 +1,27 @@
-PORT = 4000;
+const mongoose = require('mongoose');
 
-MYSQL_USER = root;
-MYSQL_PASSWORD = 12345678;
-MYSQL_DB = mydb;
+const { MONGO_DB_URI } = process.env;
 
-MDB_URI =
-  'mongodb+srv://totojoung:dkssud@cluster0.cfvpd5x.mongodb.net/?retryWrites=true&w=majority';
+const connect = async () => {
+  try {
+    await mongoose.connect(MONGO_DB_URI, {
+      dbName: 'kdt5',
+      useNewUrlParser: true,
+      //몽고DB접속
+    });
+    console.log('몽구스 접속 성공');
+    mongoose.connection.on('error', (err) => {
+      console.error('몽고 디비 연결 에러', err);
+    });
+    mongoose.connection.on('disconnected', () => {
+      console.error('몽고 디비 연결이 끊어졌습니다. 연결을 재시도 합니다.');
+      connect();
+    });
+    //특정 상황을 주시하고 있다가. 실행
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+connect();
+module.exports = connect;
